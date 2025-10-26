@@ -8,6 +8,9 @@ export function ChatMessage({message, sender}){ //destructuring assignment
           {sender==='robot' && <img src={robotImage} className="chat-message-profile" />}
           <div className="chat-message-text">{message}</div>
       { sender ==='user' && <img src={userImage}  className="chat-message-profile" />}
+
       </div>
   );
+
 }
+console.log(userImage);

@@ -3,6 +3,7 @@ import { useEffect,useState } from 'react';
 import './HomePage.css';
 import { Header } from '../components/Header';
 //import { products} from '../../starting code ecommerce/data/products';
+import { formatMoney } from '../utils/money';
 
 export function HomePage({cart}){
   const[products,setProducts]=useState([]);
@@ -46,7 +47,7 @@ useEffect(()=>{
                 </div>
       
                 <div className="product-price">
-                  {(product.priceCents/100).toFixed(2)}
+                  {formatMoney(product.priceCents)}
                 </div>
       
                 <div className="product-quantity-container">

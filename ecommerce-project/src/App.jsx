@@ -10,11 +10,17 @@ import './App.css'
 function App() {
   const[cart,setCart]=useState([]);
 
+
+  const loadCart= async()=>{          //move loadCart function outside useEffect to reuse it for auto reload when new product added to cart
+    const response= await axios.get('/api/cart-items?expand=product')
+     setCart(response.data);
+     }
   useEffect(()=>{
-    axios.get('/api/cart-items?expand=product')
-  .then((response)=>{
-  setCart(response.data);
-  });
+    // const loadCart= async()=>{
+    //  const response= await axios.get('/api/cart-items?expand=product')
+    //   setCart(response.data);
+    // }
+      loadCart();
    },[]);
    
   
@@ -23,7 +29,7 @@ function App() {
    
     <>
     <Routes>
-    <Route index element={<HomePage cart={cart} />}/>
+    <Route index element={<HomePage cart={cart} loadCart={loadCart} />}/>
     <Route path="checkout" element={<CheckoutPage cart={cart}/>}></Route>
     <Route path="orders" element={<OrdersPage cart={cart}/>}></Route>
     <Route path="tracking" element={<TrackingPage/>}></Route>

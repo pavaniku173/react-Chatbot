@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import axios from "axios";
 import { formatMoney } from "../../utils/money";
 import { DeliveryOptions } from "./deliveryOptions";
 
@@ -12,6 +13,19 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
               return deliveryOption.id === cartItem.deliveryOptionId;
             }
           );
+
+          const DeleteCartItem = async () => {
+            await axios.delete(`/api/cart-items/${cartItem.productId}`);
+            await loadCart();
+          };
+
+          const updatecartItem = async () => {
+            await axios.put(`/api/cart-items/${cartItem.productId}`, {
+              quantity: cartItem.quantity + 1,
+            });
+
+            await loadCart();
+          };
 
           return (
             <div key={cartItem.product.id} className="cart-item-container">
@@ -40,10 +54,16 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
                         {cartItem.quantity}
                       </span>
                     </span>
-                    <span className="update-quantity-link link-primary">
+                    <span
+                      className="update-quantity-link link-primary"
+                      onClick={updatecartItem}
+                    >
                       Update
                     </span>
-                    <span className="delete-quantity-link link-primary">
+                    <span
+                      className="delete-quantity-link link-primary"
+                      onClick={DeleteCartItem}
+                    >
                       Delete
                     </span>
                   </div>
